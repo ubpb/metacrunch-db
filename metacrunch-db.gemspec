@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "metacrunch/db/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "metacrunch.db"
+  spec.name          = "metacrunch-db"
   spec.version       = Metacrunch::DB::VERSION
   spec.authors       = ["René Sprotte"]
   spec.summary       = %q{Database package for the metacrunch ETL toolkit.}

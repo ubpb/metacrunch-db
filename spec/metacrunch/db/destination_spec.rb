@@ -1,10 +1,6 @@
-def new_db_connection
-  defined?(JRUBY_VERSION) ? Sequel.connect("jdbc:sqlite::memory:") : Sequel.sqlite # in-memory db
-end
-
 describe Metacrunch::DB::Destination do
 
-  DB = new_db_connection
+  DB = Sequel.sqlite # in memory
 
   before(:all) do
     DB.create_table(:users) do
@@ -13,24 +9,44 @@ describe Metacrunch::DB::Destination do
     end
   end
 
+  before(:each) do
+    DB[:users].delete
+  end
+
   describe "#write" do
-    subject { Metacrunch::DB::Destination.new(DB, ->(db){ db[:users] }) }
+    subject { Metacrunch::DB::Destination.new(DB[:users]) }
 
-    it "writes data into database" do
-      10.times do |i|
-        subject.write({id: i, name: "name-#{i}"})
+    context "when data is a hash" do
+      it "writes data into database" do
+        10.times do |i|
+          subject.write({id: i, name: "name-#{i}"})
+        end
+
+        expect(DB[:users].count).to eq(10)
       end
+    end
 
-      expect(DB[:users].count).to be(10)
+    context "when data is an array of hashes" do
+      it "writes data into database" do
+        data = []
+
+        10.times do |i|
+          data << {id: i, name: "name-#{i}"}
+        end
+
+        subject.write(data)
+
+        expect(DB[:users].count).to eq(10)
+      end
     end
   end
 
   describe "#close" do
-    subject { new_db_connection }
+    subject { Metacrunch::DB::Destination.new(DB[:users]) }
 
     it "closes db connection" do
-      subject.disconnect
-      expect(subject.pool.available_connections).to be_empty
+      subject.close
+      expect(DB.pool.available_connections).to be_empty
     end
   end
 

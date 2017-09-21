@@ -3,26 +3,29 @@ require "metacrunch/db"
 module Metacrunch
   class DB::Source
 
-    def initialize(database_connection_or_url, dataset_proc, options = {})
-      @rows_per_fetch = options.delete(:rows_per_fetch) || 1000
+    DEFAULT_OPTIONS = {
+      rows_per_fetch: 1000,
+      strategy: :filter,
+      filter_values: nil
+    }
 
-      @db = if database_connection_or_url.is_a?(String)
-        Sequel.connect(database_connection_or_url, options)
-      else
-        database_connection_or_url
-      end
-
-      @dataset = dataset_proc.call(@db).unlimited
+    def initialize(sequel_dataset, options = {})
+      @dataset = sequel_dataset
+      @options = DEFAULT_OPTIONS.merge(options)
 
       unless @dataset.opts[:order]
-        raise ArgumentError, "Metacrunch::Db::Reader requires the dataset be ordered."
+        raise ArgumentError, "The dataset must be ordered."
       end
     end
 
     def each(&block)
       return enum_for(__method__) unless block_given?
 
-      @dataset.paged_each(rows_per_fetch: @rows_per_fetch, strategy: :filter) do |row|
+      @dataset.paged_each(
+        rows_per_fetch: @options[:rows_per_fetch],
+        strategy: @options[:strategy],
+        filter_values: @options[:filter_values]
+      ) do |row|
         yield(row)
       end
 

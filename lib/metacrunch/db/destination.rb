@@ -3,33 +3,33 @@ require "metacrunch/db"
 module Metacrunch
   class DB::Destination
 
-    def initialize(database_connection_or_url, dataset_proc, options = {})
-      @use_upsert          = options.delete(:use_upsert)          || false
-      @id_key              = options.delete(:id_key)              || :id
-      @isolation_level     = options.delete(:isolation_level)     || :repeatable
-      @transaction_retries = options.delete(:transaction_retries) || 5
+    DEFAULT_OPTIONS = {
+      use_upsert: false,
+      primary_key: :id,
+      isolation: :repeatable,
+      num_retries: 5
+    }
 
-      @db = if database_connection_or_url.is_a?(String)
-        Sequel.connect(database_connection_or_url, options)
-      else
-        database_connection_or_url
-      end
-
-      @dataset = dataset_proc.call(@db)
+    def initialize(sequel_dataset, options = {})
+      @dataset = sequel_dataset
+      @options = DEFAULT_OPTIONS.merge(options)
     end
 
     def write(data)
-      if data.is_a?(Array)
-        @db.transaction(isolation: @isolation_level, num_retries: @transaction_retries) do
+      @dataset.db.transaction(
+        isolation: @options[:isolation],
+        num_retries: @options[:num_retries]
+      ) do
+        if data.is_a?(Array)
           data.each{|d| insert_or_upsert(d) }
+        else
+          insert_or_upsert(data)
         end
-      else
-        insert_or_upsert(data)
       end
     end
 
     def close
-      @db.disconnect
+      @dataset.db.disconnect
     end
 
   private
@@ -44,7 +44,9 @@ module Metacrunch
 
     def upsert(data)
       if data
-        rec = @dataset.where(@id_key => data[@id_key])
+        primary_key = @options[:primary_key]
+
+        rec = @dataset.where(primary_key => data[primary_key])
         if 1 != rec.update(data)
           insert(data)
         end

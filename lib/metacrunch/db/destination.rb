@@ -6,8 +6,7 @@ module Metacrunch
     DEFAULT_OPTIONS = {
       use_upsert: false,
       primary_key: :id,
-      isolation: :repeatable,
-      num_retries: 5
+      transaction_options: {}
     }
 
     def initialize(sequel_dataset, options = {})
@@ -16,10 +15,7 @@ module Metacrunch
     end
 
     def write(data)
-      @dataset.db.transaction(
-        isolation: @options[:isolation],
-        num_retries: @options[:num_retries]
-      ) do
+      @dataset.db.transaction(@options[:transaction_options]) do
         if data.is_a?(Array)
           data.each{|d| insert_or_upsert(d) }
         else

@@ -15,6 +15,8 @@ module Metacrunch
     end
 
     def write(data)
+      return if data.blank?
+
       @dataset.db.transaction(@options[:transaction_options]) do
         if data.is_a?(Array)
           data.each{|d| insert_or_upsert(d) }
@@ -35,7 +37,7 @@ module Metacrunch
     end
 
     def insert(data)
-      @dataset.insert(data) if data
+      @dataset.insert(data)
     end
 
     def upsert(data)

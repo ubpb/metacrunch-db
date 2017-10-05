@@ -33,7 +33,7 @@ module Metacrunch
   private
 
     def insert_or_upsert(data)
-      @use_upsert ? upsert(data) : insert(data)
+      @options[:use_upsert] ? upsert(data) : insert(data)
     end
 
     def insert(data)

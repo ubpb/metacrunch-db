@@ -30,9 +30,9 @@ Usage
 
 *Note: For working examples on how to use this package check out our [demo repository](https://github.com/ubpb/metacrunch-demo).*
 
-### Source
+### `Metacrunch::DB::Source`
 
-The `Metacrunch::DB::Source` class can be used to read data from SQL databases into a metacrunch job.
+This class provides a metacrunch `source` implementation that can be used to read data from SQL databases into a metacrunch job.
 
 ```ruby
 # my_job.metacrunch
@@ -58,9 +58,9 @@ For a detailed descriptions consult the Sequel documentation of [`paged_each`](h
 * `:filter_values`: Defaults to `nil`
 
 
-### Destination
+### `Metacrunch::DB::Destination`
 
-The `Metacrunch::DB::Destination` class can be used to write data from a metacrunch job to SQL databases.
+This class provides a metacrunch `destination` implementation that can be used to write data from a metacrunch job to SQL databases.
 
 ```ruby
 # my_job.metacrunch

@@ -84,3 +84,8 @@ destination Metacrunch::DB::Destination.new(my_target_dataset [, OPTIONS])
 * `:use_upsert`: When set to `true` it will perform an upsert (Update an existing record) and not an insert. Defaults to `false`.
 * `:primary_key`: The primary key to use to identify an existing record in case of an upsert. It defaults to `:id`.
 * `:transaction_options`: A hash of options to control how the database should handle the transaction. For a complete list of available options checkout out the Sequel documentation [here](http://www.rubydoc.info/github/jeremyevans/sequel/Sequel/Database#transaction-instance_method).
+
+License
+-------
+
+metacrunch-db is available at [github](https://github.com/ubpb/metacrunch-db) under [MIT license](https://github.com/ubpb/metacrunch-db/blob/master/License.txt).

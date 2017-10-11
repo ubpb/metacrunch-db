@@ -3,7 +3,8 @@ metacrunch-db
 
 [![Gem Version](https://badge.fury.io/rb/metacrunch-db.svg)](http://badge.fury.io/rb/metacrunch-db)
 [![Code Climate](https://codeclimate.com/github/ubpb/metacrunch-db/badges/gpa.svg)](https://codeclimate.com/github/ubpb/metacrunch-db)
-[![Build Status](https://travis-ci.org/ubpb/metacrunch-db.svg)](https://travis-ci.org/ubpb/metacrunch-db)
+[![Test Coverage](https://codeclimate.com/github/ubpb/metacrunch-db/badges/coverage.svg)](https://codeclimate.com/github/ubpb/metacrunch-db/coverage)
+[![CircleCI](https://circleci.com/gh/ubpb/metacrunch-db.svg?style=svg)](https://circleci.com/gh/ubpb/metacrunch-db)
 
 This is the official SQL database package for the [metacrunch ETL toolkit](https://github.com/ubpb/metacrunch). The implementation uses the [Sequel](https://github.com/jeremyevans/sequel) Gem as a dependency. Every database that is supported by Sequel can be used with this package.
 

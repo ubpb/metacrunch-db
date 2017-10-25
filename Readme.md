@@ -74,7 +74,7 @@ my_target_dataset = DEST_DB[:my_table]
 
 # For performance reasons it may be useful to create a batch
 # of records that gets written to the database
-transformation ->(row) { row }, batch_size: 1000
+transformation ->(row) { row }, buffer: 1000
 
 # Set the destination
 destination Metacrunch::DB::Destination.new(my_target_dataset [, OPTIONS])

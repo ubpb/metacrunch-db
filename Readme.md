@@ -6,6 +6,10 @@ metacrunch-db
 [![Test Coverage](https://codeclimate.com/github/ubpb/metacrunch-db/badges/coverage.svg)](https://codeclimate.com/github/ubpb/metacrunch-db/coverage)
 [![CircleCI](https://circleci.com/gh/ubpb/metacrunch-db.svg?style=svg)](https://circleci.com/gh/ubpb/metacrunch-db)
 
+> **metacrunch-db belongs to metacrunch 4.x** and does not work with metacrunch 5 yet. It will be migrated into the
+> [metacrunch repository](https://github.com/ubpb/metacrunch), where metacrunch 5 and its extension gems are
+> developed. metacrunch 5 is not released yet.
+
 This is the official SQL database package for the [metacrunch ETL toolkit](https://github.com/ubpb/metacrunch). The implementation uses the [Sequel](https://github.com/jeremyevans/sequel) Gem as a dependency. Every database that is supported by Sequel can be used with this package.
 
 Installation
